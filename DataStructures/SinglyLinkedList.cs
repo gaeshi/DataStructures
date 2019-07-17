@@ -42,9 +42,10 @@ namespace DataStructures
                 throw new Exception("Can't pop: head is null");
             }
 
+            Length--;
+
             if (Head.Next == null)
             {
-                Length--;
                 var returnValue = Head.Value;
                 Head = null;
                 Tail = null;
@@ -61,7 +62,6 @@ namespace DataStructures
 
             Tail = prePopNode;
             Tail.Next = null;
-            Length--;
             return popNode.Value;
         }
 
@@ -72,9 +72,10 @@ namespace DataStructures
                 throw new Exception("Can't Shift: Head is null");
             }
 
+            Length--;
+
             if (Head.Next == null)
             {
-                Length--;
                 var returnValue = Head.Value;
                 Head = null;
                 Tail = null;
@@ -83,21 +84,20 @@ namespace DataStructures
 
             var node = Head;
             Head = Head.Next;
-            Length--;
             return node.Value;
         }
 
         public T Unshift(T val)
         {
+            var node = new Node(val) {Next = Head};
+            Length++;
+
             if (Head == null)
             {
-                Push(val);
-                return val;
+                Tail = node;
             }
 
-            var node = new Node(val) {Next = Head};
             Head = node;
-            Length++;
             return val;
         }
     }
