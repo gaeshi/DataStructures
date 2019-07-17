@@ -19,7 +19,7 @@ namespace DataStructuresTests
         public void Push_SLL_OneElement_HeadEqualsToTail()
         {
             var sll = CreateSinglyLinkedList("A value");
-            
+
             Assert.That(sll.Length, Is.EqualTo(1));
             Assert.That(sll.Head, Is.EqualTo(sll.Tail));
             Assert.That(sll.Head.Value, Is.EqualTo("A value"));
@@ -45,7 +45,7 @@ namespace DataStructuresTests
             var returnedValue = sll.Pop();
 
             Assert.That(returnedValue, Is.EqualTo("Bae"));
-            
+
             Assert.That(sll.Length, Is.EqualTo(2));
             Assert.That(sll.Head.Value, Is.EqualTo("Aa"));
             Assert.That(sll.Head.Next.Value, Is.EqualTo("Ea"));
@@ -78,7 +78,7 @@ namespace DataStructuresTests
             var returnedValue = sll.Shift();
 
             Assert.That(returnedValue, Is.EqualTo("foo"));
-            
+
             Assert.That(sll.Length, Is.EqualTo(2));
             Assert.That(sll.Head.Value, Is.EqualTo("bar"));
             Assert.That(sll.Head.Next.Value, Is.EqualTo("baz"));
@@ -119,6 +119,38 @@ namespace DataStructuresTests
             Assert.That(sll.Head.Next.Next.Value, Is.EqualTo("bar"));
             Assert.That(sll.Head.Next.Next.Next.Value, Is.EqualTo("baz"));
             Assert.That(sll.Head.Next.Next.Next.Next, Is.Null);
+        }
+
+        [TestCase(1, "Foo", "Foo")]
+        [TestCase(1, "Hello", "Hello", "Goodbye", "!")]
+        [TestCase(3, "!", "Hello", "Goodbye", "!")]
+        public void GetTests(int index, string expectedValue, params string[] vals)
+        {
+            var sll = CreateSinglyLinkedList(vals);
+
+            Assert.That(sll.Get(index), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        public void Get_NoElements_ThrowsException()
+        {
+            Assert.Throws<Exception>(() => new SinglyLinkedList<object>().Get(1));
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void Get_IndexLessThanZero_ThrowsArgumentOutOfRangeException(int index)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateSinglyLinkedList("foo").Get(index));
+        }
+
+        [Test]
+        public void Get_IndexGreaterThanLength_ThrowsArgumentOutOfRangeException()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar");
+            
+            Assert.DoesNotThrow(() => sll.Get(2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => sll.Get(3));
         }
 
         private static SinglyLinkedList<string> CreateSinglyLinkedList(params string[] vals)

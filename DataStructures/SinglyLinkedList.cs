@@ -100,5 +100,33 @@ namespace DataStructures
             Head = node;
             return val;
         }
+
+        public T Get(int index)
+        {
+            if (Head == null)
+            {
+                throw new Exception("Can't Get: Head is null");
+            }
+
+            if (index > Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), index,
+                    $"Can't Get: index is greater than {Length}");
+            }
+
+            if (index <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Can't Get: index must be greater than 0");
+            }
+
+            var node = Head;
+            while (index > 1)
+            {
+                node = node.Next;
+                index--;
+            }
+
+            return node.Value;
+        }
     }
 }
