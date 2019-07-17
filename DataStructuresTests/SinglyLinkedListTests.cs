@@ -153,6 +153,39 @@ namespace DataStructuresTests
             Assert.Throws<ArgumentOutOfRangeException>(() => sll.Get(3));
         }
 
+        [TestCase(1, "Foo", "Foo")]
+        [TestCase(1, "Test", "Hello", "Goodbye", "!")]
+        [TestCase(3, "Best", "Hello", "Goodbye", "!")]
+        public void SetTests(int index, string expectedValue, params string[] vals)
+        {
+            var sll = CreateSinglyLinkedList(vals);
+            sll.Set(index, expectedValue);
+            
+            Assert.That(sll.Get(index), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        public void Set_NoElements_ThrowsException()
+        {
+            Assert.Throws<Exception>(() => new SinglyLinkedList<object>().Set(1, new object()));
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void Set_IndexLessThanZero_ThrowsArgumentOutOfRangeException(int index)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateSinglyLinkedList("foo").Set(index, "bar"));
+        }
+
+        [Test]
+        public void Set_IndexGreaterThanLength_ThrowsArgumentOutOfRangeException()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar");
+            
+            Assert.DoesNotThrow(() => sll.Set(2, "baz"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => sll.Set(3, "bazinga!"));
+        }
+
         private static SinglyLinkedList<string> CreateSinglyLinkedList(params string[] vals)
         {
             var sll = new SinglyLinkedList<string>();

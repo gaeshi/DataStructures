@@ -6,7 +6,7 @@ namespace DataStructures
     {
         public class Node
         {
-            public T Value { get; }
+            public T Value { get; set; }
             public Node Next { get; set; }
 
             public Node(T value)
@@ -101,9 +101,11 @@ namespace DataStructures
             return val;
         }
 
-        public T Get(int index) => ((Node)this[index]).Value;
+        public T Get(int index) => this[index].Value;
 
-        private object this[int index]
+        public void Set(int index, T val) => this[index].Value = val;
+
+        private Node this[int index]
         {
             get
             {
