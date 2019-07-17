@@ -124,6 +124,24 @@ namespace DataStructures
             Length++;
         }
 
+        public void Remove(int index)
+        {
+            if (index == 0)
+            {
+                Shift();
+                return;
+            }
+
+            if (index == Length)
+            {
+                Pop();
+                return;
+            }
+            
+            this[index].Next = this[index].Next.Next;
+            Length--;
+        }
+
         private Node this[int index]
         {
             get

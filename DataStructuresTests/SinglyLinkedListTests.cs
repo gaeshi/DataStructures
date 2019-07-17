@@ -253,6 +253,73 @@ namespace DataStructuresTests
             Assert.That(sll.Head.Next.Next.Next, Is.Null);
         }
 
+        [Test]
+        public void Remove_NoElements_ThrowsException()
+        {
+            Assert.Throws<Exception>(() => new SinglyLinkedList<object>().Remove(1));
+        }
+
+        [Test]
+        public void Remove_IndexLessThanZero_ThrowsArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateSinglyLinkedList("foo").Remove(-1));
+        }
+
+        [Test]
+        public void Remove_IndexGreaterThanLength_ThrowsArgumentOutOfRangeException()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar");
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => sll.Remove(3));
+        }
+
+        [Test]
+        public void Remove_Start_ValidateContents()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar", "baz");
+            sll.Remove(0);
+
+            Assert.That(sll.Length, Is.EqualTo(2));
+            Assert.That(sll.Head.Value, Is.EqualTo("bar"));
+            Assert.That(sll.Head.Next.Value, Is.EqualTo("baz"));
+            Assert.That(sll.Head.Next.Next, Is.Null);
+        }
+
+        [Test]
+        public void Remove_Middle_ValidateContents()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar", "baz");
+            sll.Remove(1);
+
+            Assert.That(sll.Length, Is.EqualTo(2));
+            Assert.That(sll.Head.Value, Is.EqualTo("foo"));
+            Assert.That(sll.Head.Next.Value, Is.EqualTo("baz"));
+            Assert.That(sll.Head.Next.Next, Is.Null);
+        }
+
+        [Test]
+        public void Remove_End_ValidateContents()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar", "baz");
+            sll.Remove(2);
+
+            Assert.That(sll.Length, Is.EqualTo(2));
+            Assert.That(sll.Head.Value, Is.EqualTo("foo"));
+            Assert.That(sll.Head.Next.Value, Is.EqualTo("bar"));
+            Assert.That(sll.Head.Next.Next, Is.Null);
+        }
+
+        [Test]
+        public void Remove_OnlyElement_CanNeitherGetNorRemove()
+        {
+            var sll = CreateSinglyLinkedList("hoge");
+            sll.Remove(1);
+
+            Assert.That(sll.Length, Is.EqualTo(0));
+            Assert.Throws<Exception>(() => sll.Get(1));
+            Assert.Throws<Exception>(() => sll.Remove(1));
+        }
+
         private static SinglyLinkedList<string> CreateSinglyLinkedList(params string[] vals)
         {
             var sll = new SinglyLinkedList<string>();
