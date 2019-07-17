@@ -105,6 +105,25 @@ namespace DataStructures
 
         public void Set(int index, T val) => this[index].Value = val;
 
+        public void Insert(int index, T insertValue)
+        {
+            if (index == 0)
+            {
+                Unshift(insertValue);
+                return;
+            }
+
+            if (index == Length)
+            {
+                Push(insertValue);
+                return;
+            }
+
+            var node = new Node(insertValue) {Next = this[index].Next};
+            this[index].Next = node;
+            Length++;
+        }
+
         private Node this[int index]
         {
             get

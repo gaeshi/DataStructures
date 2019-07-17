@@ -139,7 +139,7 @@ namespace DataStructuresTests
 
         [TestCase(0)]
         [TestCase(-1)]
-        public void Get_IndexLessThanZero_ThrowsArgumentOutOfRangeException(int index)
+        public void Get_IndexZeroOrLess_ThrowsArgumentOutOfRangeException(int index)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => CreateSinglyLinkedList("foo").Get(index));
         }
@@ -148,19 +148,19 @@ namespace DataStructuresTests
         public void Get_IndexGreaterThanLength_ThrowsArgumentOutOfRangeException()
         {
             var sll = CreateSinglyLinkedList("foo", "bar");
-            
+
             Assert.DoesNotThrow(() => sll.Get(2));
             Assert.Throws<ArgumentOutOfRangeException>(() => sll.Get(3));
         }
 
-        [TestCase(1, "Foo", "Foo")]
+        [TestCase(1, "Boo", "Foo")]
         [TestCase(1, "Test", "Hello", "Goodbye", "!")]
         [TestCase(3, "Best", "Hello", "Goodbye", "!")]
         public void SetTests(int index, string expectedValue, params string[] vals)
         {
             var sll = CreateSinglyLinkedList(vals);
             sll.Set(index, expectedValue);
-            
+
             Assert.That(sll.Get(index), Is.EqualTo(expectedValue));
         }
 
@@ -172,7 +172,7 @@ namespace DataStructuresTests
 
         [TestCase(0)]
         [TestCase(-1)]
-        public void Set_IndexLessThanZero_ThrowsArgumentOutOfRangeException(int index)
+        public void Set_IndexZeroOrLess_ThrowsArgumentOutOfRangeException(int index)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => CreateSinglyLinkedList("foo").Set(index, "bar"));
         }
@@ -181,9 +181,76 @@ namespace DataStructuresTests
         public void Set_IndexGreaterThanLength_ThrowsArgumentOutOfRangeException()
         {
             var sll = CreateSinglyLinkedList("foo", "bar");
-            
+
             Assert.DoesNotThrow(() => sll.Set(2, "baz"));
             Assert.Throws<ArgumentOutOfRangeException>(() => sll.Set(3, "bazinga!"));
+        }
+
+        [TestCase(1, "Foo", "Bar")]
+        [TestCase(1, "Test", "Hello", "Goodbye", "!")]
+        [TestCase(3, "Best", "Hello", "Goodbye", "!")]
+        public void InsertTests(int index, string insertValue, params string[] vals)
+        {
+            var sll = CreateSinglyLinkedList(vals);
+            sll.Insert(index, insertValue);
+
+            Assert.That(sll.Get(index + 1), Is.EqualTo(insertValue));
+        }
+
+        [Test]
+        public void Insert_NoElements_ThrowsException()
+        {
+            Assert.Throws<Exception>(() => new SinglyLinkedList<object>().Insert(1, new object()));
+        }
+
+        [Test]
+        public void Insert_IndexLessThanZero_ThrowsArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateSinglyLinkedList("foo").Insert(-1, "bar"));
+        }
+
+        [Test]
+        public void Insert_IndexGreaterThanLength_ThrowsArgumentOutOfRangeException()
+        {
+            var sll = CreateSinglyLinkedList("foo", "bar");
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => sll.Insert(3, "bazinga!"));
+        }
+
+        [Test]
+        public void Insert_Start_ValidateContents()
+        {
+            var sll = CreateSinglyLinkedList("you", "!");
+            sll.Insert(0, "Thank");
+
+            AssertThankYou(sll);
+        }
+
+        [Test]
+        public void Insert_Middle_ValidateContents()
+        {
+            var sll = CreateSinglyLinkedList("Thank", "!");
+            sll.Insert(1, "you");
+
+            AssertThankYou(sll);
+        }
+
+        [Test]
+        public void Insert_End_ValidateContents()
+        {
+            var sll = CreateSinglyLinkedList("Thank", "you");
+            sll.Insert(2, "!");
+
+            AssertThankYou(sll);
+        }
+
+        private static void AssertThankYou(SinglyLinkedList<string> sll)
+        {
+            Assert.That(sll.Length, Is.EqualTo(3));
+            Assert.That(sll.Head.Value, Is.EqualTo("Thank"));
+            Assert.That(sll.Head.Next.Value, Is.EqualTo("you"));
+            Assert.That(sll.Head.Next.Next.Value, Is.EqualTo("!"));
+            Assert.That(sll.Head.Next.Next.Next, Is.Null);
         }
 
         private static SinglyLinkedList<string> CreateSinglyLinkedList(params string[] vals)
