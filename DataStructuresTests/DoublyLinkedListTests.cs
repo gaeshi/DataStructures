@@ -1,3 +1,4 @@
+using System;
 using DataStructures;
 using NUnit.Framework;
 
@@ -44,6 +45,35 @@ namespace DataStructuresTests
             Assert.That(dll.Head.Next.Previous, Is.EqualTo(dll.Head));
             Assert.That(dll.Tail.Previous.Next, Is.EqualTo(dll.Tail));
         }
+
+        [Test]
+        public void Pop_SingleElement_Head_and_Tail_become_nulls()
+        {
+            var dll = CreateDoublyLinkedList("single");
+
+            var result = dll.Pop();
+
+            Assert.That(result, Is.EqualTo("single"));
+            Assert.That(dll.Length, Is.EqualTo(0));
+            Assert.That(dll.Head, Is.Null);
+            Assert.That(dll.Tail, Is.Null);
+        }
+
+        [Test]
+        public void Pop_MultipleElementDll()
+        {
+            var dll = CreateDoublyLinkedList("one", "two", "three");
+
+            var result = dll.Pop();
+
+            Assert.That(result, Is.EqualTo("three"));
+            Assert.That(dll.Length, Is.EqualTo(2));
+            Assert.That(dll.Head.Next, Is.EqualTo(dll.Tail));
+        }
+
+        [Test]
+        public void Pop_EmptyDll_ThrowsException() =>
+            Assert.Throws<Exception>(() => new DoublyLinkedList<object>().Pop());
 
         private static DoublyLinkedList<string> CreateDoublyLinkedList(params string[] vals)
         {

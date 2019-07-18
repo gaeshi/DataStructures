@@ -1,3 +1,5 @@
+using System;
+
 namespace DataStructures
 {
     public class DoublyLinkedList<T>
@@ -33,6 +35,31 @@ namespace DataStructures
 
             Tail = node;
             Length++;
+        }
+
+        public T Pop()
+        {
+            if (Tail == null)
+            {
+                throw new Exception("Can't pop: Tail is null");
+            }
+
+            Length--;
+            var temp = Tail;
+
+            if (Length == 0)
+            {
+                Head = null;
+                Tail = null;
+            }
+            else
+            {
+                Tail = Tail.Previous;
+                Tail.Next = null;
+                temp.Previous = null;
+            }
+
+            return temp.Value;
         }
     }
 }
