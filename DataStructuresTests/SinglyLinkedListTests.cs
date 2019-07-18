@@ -323,7 +323,7 @@ namespace DataStructuresTests
         [Test]
         public void Reverse_MultipleNodes()
         {
-            var sll = CreateSinglyLinkedList(new[] {"a", "b", "c", "d"});
+            var sll = CreateSinglyLinkedList("a", "b", "c", "d");
 
             sll.Reverse();
 
@@ -339,7 +339,7 @@ namespace DataStructuresTests
         [Test]
         public void Reverse_OneNode()
         {
-            var sll = CreateSinglyLinkedList(new[] {"only"});
+            var sll = CreateSinglyLinkedList("only");
 
             sll.Reverse();
 
@@ -352,7 +352,7 @@ namespace DataStructuresTests
         [Test]
         public void Reverse_TwoNodes()
         {
-            var sll = CreateSinglyLinkedList(new[] {"first", "second"});
+            var sll = CreateSinglyLinkedList("first", "second");
 
             sll.Reverse();
 
