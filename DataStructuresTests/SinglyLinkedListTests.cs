@@ -320,6 +320,49 @@ namespace DataStructuresTests
             Assert.Throws<Exception>(() => sll.Remove(1));
         }
 
+        [Test]
+        public void Reverse_MultipleNodes()
+        {
+            var sll = CreateSinglyLinkedList(new[] {"a", "b", "c", "d"});
+
+            sll.Reverse();
+
+            Assert.That(sll.Head.Value, Is.EqualTo("d"));
+            Assert.That(sll.Head.Next.Value, Is.EqualTo("c"));
+            Assert.That(sll.Head.Next.Next.Value, Is.EqualTo("b"));
+            Assert.That(sll.Head.Next.Next.Next.Value, Is.EqualTo("a"));
+            Assert.That(sll.Head.Next.Next.Next.Next, Is.Null);
+            Assert.That(sll.Tail.Value, Is.EqualTo("a"));
+            Assert.That(sll.Tail.Next, Is.Null);
+        }
+
+        [Test]
+        public void Reverse_OneNode()
+        {
+            var sll = CreateSinglyLinkedList(new[] {"only"});
+
+            sll.Reverse();
+
+            Assert.That(sll.Head.Value, Is.EqualTo("only"));
+            Assert.That(sll.Head.Next, Is.EqualTo(null));
+            Assert.That(sll.Tail.Value, Is.EqualTo("only"));
+            Assert.That(sll.Tail.Next, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void Reverse_TwoNodes()
+        {
+            var sll = CreateSinglyLinkedList(new[] {"first", "second"});
+
+            sll.Reverse();
+
+            Assert.That(sll.Head.Value, Is.EqualTo("second"));
+            Assert.That(sll.Head.Next.Value, Is.EqualTo("first"));
+            Assert.That(sll.Head.Next.Next, Is.Null);
+            Assert.That(sll.Tail.Value, Is.EqualTo("first"));
+            Assert.That(sll.Tail.Next, Is.EqualTo(null));
+        }
+
         private static SinglyLinkedList<string> CreateSinglyLinkedList(params string[] vals)
         {
             var sll = new SinglyLinkedList<string>();

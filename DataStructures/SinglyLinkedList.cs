@@ -137,7 +137,7 @@ namespace DataStructures
                 Pop();
                 return;
             }
-            
+
             this[index].Next = this[index].Next.Next;
             Length--;
         }
@@ -172,6 +172,23 @@ namespace DataStructures
 
                 return node;
             }
+        }
+
+        public void Reverse()
+        {
+            var previous = Head;
+            var current = Head.Next;
+            Tail = Head;
+            Tail.Next = null;
+            while (current != null)
+            {
+                var next = current.Next;
+                current.Next = previous;
+                previous = current;
+                current = next;
+            }
+
+            Head = previous;
         }
     }
 }
